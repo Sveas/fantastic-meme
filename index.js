@@ -6,14 +6,20 @@ const server = http.createServer(app);
 const { Server } = require('socket.io');
 const io = new Server(server);
 
+var innskráðir = 0;
+
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
 io.on('connection', (socket) => {
     console.log('a user connected');
+    innskráðir++;
+    io.emit('innskráðir_breyttust', innskráðir);
     socket.on('disconnect', () => {
         console.log('user disconnected');
+        innskráðir--;
+        io.emit('innskráðir_breyttust', innskráðir);
     });
     socket.on('chat message', (msg) => {        
         console.log('message: ' + msg);

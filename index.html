@@ -13,10 +13,12 @@
       #messages { list-style-type: none; margin: 0; padding: 0; }
       #messages > li { padding: 0.5rem 1rem; }
       #messages > li:nth-child(odd) { background: #efefef; }
+      #innskráðir { position: absolute; top: 50px; right: 50px; }
     </style>
   </head>
   <body>
     <ul id="messages"></ul>
+    <ul id="innskráðir"></ul>
     <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>
     </form>
@@ -27,6 +29,7 @@
       var socket = io();
       
       var messages = document.getElementById('messages');
+      var innskráðir = document.getElementById('innskráðir');
       var form = document.getElementById('form');
       var input = document.getElementById('input');
 
@@ -37,6 +40,10 @@
           socket.emit('chat message', input.value);
           input.value = '';
         }
+      });
+
+      socket.on('innskráðir_breyttust', (fjöldi_innskráðra) => {
+        innskráðir.innerHTML = fjöldi_innskráðra;
       });
 
       socket.on('chat message', function(msg) {
