@@ -28,6 +28,9 @@
     <script>
       var socket = io();
       
+      var username = prompt('Please choose a username');
+      socket.emit('choose_username', username);
+
       var messages = document.getElementById('messages');
       var innskráðir = document.getElementById('innskráðir');
       var form = document.getElementById('form');
@@ -46,9 +49,9 @@
         innskráðir.innerHTML = fjöldi_innskráðra;
       });
 
-      socket.on('chat message', function(msg) {
+      socket.on('chat message', function(user, msg) {
         var item = document.createElement('li');
-        item.textContent = msg;
+        item.textContent = user + ' wrote: ' + msg;
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
       });

@@ -21,9 +21,12 @@ io.on('connection', (socket) => {
         innskráðir--;
         io.emit('innskráðir_breyttust', innskráðir);
     });
+    socket.on('choose_username', (username) => {
+        socket.userName = username;
+    });
     socket.on('chat message', (msg) => {        
         console.log('message: ' + msg);
-        io.emit('chat message', msg);
+        io.emit('chat message', socket.userName, msg);
     });
 });
 
